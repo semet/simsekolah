@@ -17,7 +17,11 @@ class AdminFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama' => 'Hamdani Ash-Sidiq',
+            'email' => 'hamdanilombok@gmail.com',
+            'telepon' => '+6287736690307',
+            'password' => bcrypt('danis3m3t'),
+
         ];
     }
 }
