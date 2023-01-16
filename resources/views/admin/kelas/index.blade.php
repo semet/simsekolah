@@ -1,6 +1,6 @@
 <x-layouts.main>
-    <x-slot:title>Tingkat</x-slot:title>
-    <x-slot:subtitle>Pengelolaan Tingkat</x-slot:subtitle>
+    <x-slot:title>Kelas</x-slot:title>
+    <x-slot:subtitle>Pengelolaan Ruang Kelas</x-slot:subtitle>
     {{-- Toolbars --}}
     <x-toolbars.admin.kelas/>
     {{-- Card --}}
@@ -60,17 +60,17 @@
 
         <script>
             $(document).ready(function () {
-                $('#departemen').change(function (e) {
+                $('#tingkat').change(function (e) {
                     e.preventDefault();
-                    if(e.target.value == '' || e.target.value == '{{ request()->get('departemen') }}'){
+                    if(e.target.value == '' || e.target.value == '{{ request()->get('tingkat') }}'){
                         return;
                     }
-                    $('#tingkatFilterForm').submit();
+                    $('#kelasFilterForm').submit();
                 });
             });
         </script>
     @endpush
 
-    <x-admin.tingkat.create/>
+    <x-admin.kelas.create/>
 
 </x-layouts.main>

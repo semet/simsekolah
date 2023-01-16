@@ -3,7 +3,7 @@
         <select name="tingkat" id="tingkat" class="form-select">
             <option value="" selected>--Pilih Tingkat--</option>
             @foreach ($tingkat as $tn)
-                <option value="{{ $tn->id }}" @selected(request()->get('departemen') == $tn->id)>{{ $tn->nama }}</option>
+                <option value="{{ $tn->id }}" @selected(request()->get('tingkat') == $tn->id)>{{ $tn->nama }}</option>
             @endforeach
         </select>
     </form>

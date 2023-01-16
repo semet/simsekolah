@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Admin\Kelas;
 
+use App\Models\Tingkat;
 use Illuminate\View\Component;
 
 class Create extends Component
@@ -23,6 +24,11 @@ class Create extends Component
      */
     public function render()
     {
-        return view('components.admin.kelas.create');
+        $tingkat = Tingkat::orderBy('nama')
+                ->get();
+
+        return view('components.admin.kelas.create', [
+            'tingkat' => $tingkat
+        ]);
     }
 }
