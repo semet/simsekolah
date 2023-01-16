@@ -66,7 +66,7 @@ class SemesterController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('admin.semester', 'tahunId='.$request->tahunId)
+                ->route('admin.semester', 'tahun='.$request->tahunId)
                 ->with('message', 'Input data Semester berhasil.');
         }catch(Exception $e){
 
