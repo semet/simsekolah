@@ -50,6 +50,11 @@ return [
             'driver' => 'session',
             'provider' => 'operators',
         ],
+
+        'guru' => [
+            'driver' => 'session',
+            'provider' => 'gurus',
+        ],
     ],
 
     /*
@@ -83,6 +88,11 @@ return [
         'operators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Pegawai::class,
+        ],
+
+        'gurus' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Guru::class,
         ],
 
         // 'users' => [
