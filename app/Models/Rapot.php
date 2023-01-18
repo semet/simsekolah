@@ -14,6 +14,7 @@ class Rapot extends Model
     protected $fillable = [
         'tahun_id',
         'semester_id',
+        'guru_id',
         'mapel_id',
         'siswa_id',
         'nilai'
