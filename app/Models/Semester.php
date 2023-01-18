@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Semester extends Model
 {
@@ -38,5 +39,10 @@ class Semester extends Model
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->format('d, M Y')
         );
+    }
+
+    public function rapot(): HasMany
+    {
+        return $this->hasMany(Rapot::class);
     }
 }

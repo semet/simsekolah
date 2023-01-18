@@ -39,5 +39,10 @@ class Tahun extends Model
         );
     }
 
+    public function rapot(): HasMany
+    {
+        return $this->hasMany(Rapot::class);
+    }
+
 
 }

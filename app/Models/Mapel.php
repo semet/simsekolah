@@ -29,4 +29,9 @@ class Mapel extends Model
     {
         return $this->hasMany(Guru::class);
     }
+
+    public function rapot(): HasMany
+    {
+        return $this->hasMany(Rapot::class);
+    }
 }

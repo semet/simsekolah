@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -51,5 +52,10 @@ class Siswa extends Authenticatable
     public function kelas(): BelongsTo
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function rapot(): HasMany
+    {
+        return $this->hasMany(Rapot::class);
     }
 }
