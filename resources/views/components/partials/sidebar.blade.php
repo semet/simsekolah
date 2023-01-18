@@ -12,6 +12,10 @@
             @auth('operator')
                 <x-operator.sidebar/>
             @endauth
+
+            @auth('guru')
+                <x-guru.sidebar/>
+            @endauth
         </div>
         <!-- Sidebar -->
     </div>
