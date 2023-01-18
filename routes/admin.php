@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DepartemenController;
+use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\KepalaSekolahController;
+use App\Http\Controllers\Admin\MapelController;
+use App\Http\Controllers\Admin\PegawaiController;
 use App\Http\Controllers\Admin\SemesterController;
+use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\TahunController;
 use App\Http\Controllers\Admin\TingkatController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +19,7 @@ Route::controller(AuthController::class)->group(function() {
         ->name('admin.login.show')
         ->middleware('guest:admin');
     Route::post('login', 'login')->name('admin.login');
+    Route::get('logout', 'logout')->name('admin.logout');
 });
 
 Route::middleware(['admin'])->group(function() {
@@ -50,6 +55,25 @@ Route::middleware(['admin'])->group(function() {
     Route::controller(KelasController::class)->group(function() {
         Route::get('kelas', 'index')->name('admin.kelas');
         Route::post('kelas', 'store')->name('admin.kelas.store');
+    });
+    //Mapel (Mata Pelajaran) routes
+    Route::controller(MapelController::class)->group(function() {
+        Route::get('mapel', 'index')->name('admin.mapel');
+        Route::post('mapel', 'store')->name('admin.mapel.store');
+    });
+    //Guru routes
+    Route::controller(GuruController::class)->group(function() {
+        Route::get('guru', 'index')->name('admin.guru');
+        Route::post('guru/store', 'store')->name('admin.guru.store');
+    });
+    //Siswa routes
+    Route::controller(SiswaController::class)->group(function() {
+        Route::get('siswa', 'index')->name('admin.siswa');
+        Route::post('siswa', 'store')->name('admin.siswa.store');
+    });
+    //Pegawai routes
+    Route::controller(PegawaiController::class)->group(function(){
+        Route::get('pegawai', 'index')->name('admin.pegawai');
     });
 });
 

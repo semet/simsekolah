@@ -17,7 +17,7 @@ class TingkatFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama' => fake()->word(),
         ];
     }
 }

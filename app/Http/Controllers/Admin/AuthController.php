@@ -34,4 +34,12 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
     }
+
+    public function logout()
+    {
+        auth()->guard('admin')->logout();
+        session()->regenerate();
+
+        return redirect()->route('admin.login.show');
+    }
 }

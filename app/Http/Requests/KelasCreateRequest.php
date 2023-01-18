@@ -24,6 +24,7 @@ class KelasCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'departemenId' => 'required',
             'tingkatId' => 'required',
             'nama' => 'required',
         ];

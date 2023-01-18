@@ -45,6 +45,11 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+
+        'operator' => [
+            'driver' => 'session',
+            'provider' => 'operators',
+        ],
     ],
 
     /*
@@ -73,6 +78,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'operators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pegawai::class,
         ],
 
         // 'users' => [

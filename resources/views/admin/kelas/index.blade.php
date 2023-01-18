@@ -57,15 +57,38 @@
     @push('scripts')
         <script src="{{ asset('assets/libs/parsleyjs/parsley.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/form-validation.init.js') }}"></script>
+        <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
 
         <script>
             $(document).ready(function () {
-                $('#tingkat').change(function (e) {
+                $('#departemen, #departemenId').change(function (e) {
                     e.preventDefault();
                     if(e.target.value == '' || e.target.value == '{{ request()->get('tingkat') }}'){
                         return;
                     }
-                    $('#kelasFilterForm').submit();
+                    axios.get(`/general/tingkat-by-departemen?departemen=${e.target.value}`)
+                    .then((res) => {
+                        // determain which id is curently selcted
+                        if($(this)[0].id === 'departemen') {
+                            $('#tingkat').empty();
+                            $('#tingkat').append(`<option value="" selected>--Pilih Tingkat--</option>`);
+                            $.each(res.data.tingkat, function (idx, tingkat) {
+                                $('#tingkat').append(`<option value="${tingkat.id}">${tingkat.nama}</option>`);
+                            });
+                        }else{
+                            $('#tingkatId').empty();
+                            $('#tingkatId').append(`<option value="" selected>--Pilih Tingkat--</option>`);
+                            $.each(res.data.tingkat, function (idx, tingkat) {
+                                $('#tingkatId').append(`<option value="${tingkat.id}">${tingkat.nama}</option>`);
+                            });
+                        }
+
+                    })
+                });
+                //
+                $('#tingkat').change(function (e) {
+                    e.preventDefault();
+                    $('#kelasFilterForm').submit()
                 });
             });
         </script>

@@ -17,7 +17,8 @@ class DepartemenFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama' => 'SMA (Sekolah Menengah Atas)',
+            'keterangan' => fake()->paragraph()
         ];
     }
 }

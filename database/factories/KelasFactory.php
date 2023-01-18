@@ -17,7 +17,7 @@ class KelasFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nama' => fake()->word()
         ];
     }
 }

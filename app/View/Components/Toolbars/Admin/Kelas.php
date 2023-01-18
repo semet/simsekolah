@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Toolbars\Admin;
 
-use App\Models\Tingkat;
+use App\Models\Departemen;
 use Illuminate\View\Component;
 
 class Kelas extends Component
@@ -24,12 +24,12 @@ class Kelas extends Component
      */
     public function render()
     {
-        $tingkat = Tingkat::select(['id', 'nama'])
+        $departemen = Departemen::select(['id', 'nama'])
                 ->orderBy('nama')
                 ->get();
 
         return view('components.toolbars.admin.kelas', [
-            'tingkat' => $tingkat
+            'departemen' => $departemen
         ]);
     }
 }

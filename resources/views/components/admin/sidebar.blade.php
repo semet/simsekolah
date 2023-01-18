@@ -50,6 +50,32 @@
         </a>
     </li>
 
+    <li>
+        <a href="{{ route('admin.mapel') }}" class="waves-effect">
+            <i class="fas fa-atlas"></i>
+            <span>Mata Pelajaran</span>
+        </a>
+    </li>
 
+    <li>
+        <a href="{{ route('admin.guru') }}" class="waves-effect">
+            <i class="fas fa-users"></i>
+            <span>Guru</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.siswa') }}" class="waves-effect">
+            <i class="fas fa-users"></i>
+            <span>Siswa</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('admin.pegawai') }}" class="waves-effect">
+            <i class="fas fa-user-cog"></i>
+            <span>Pegawai</span>
+        </a>
+    </li>
 
 </ul>

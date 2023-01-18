@@ -50,6 +50,7 @@ class KelasController extends Controller
 
         try{
             $kelas = new Kelas();
+            $kelas->departemen_id = $request->departemenId;
             $kelas->tingkat_id = $request->tingkatId;
             $kelas->nama = $request->nama;
             $kelas->kapasitas = $request->kapasitas;
@@ -59,7 +60,7 @@ class KelasController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('admin.kelas', 'tingkat='.$request->tingkatId)
+                ->route('admin.kelas')
                 ->with('message', 'Input data Kelas berhasil.');
 
         }catch(Exception $e) {

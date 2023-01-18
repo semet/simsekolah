@@ -1,11 +1,18 @@
 <div class="d-flex mb-3 justify-content-between">
-    <form class="w-25" method="GET" action="{{ route('admin.kelas') }}" id="kelasFilterForm">
-        <select name="tingkat" id="tingkat" class="form-select">
-            <option value="" selected>--Pilih Tingkat--</option>
-            @foreach ($tingkat as $tn)
-                <option value="{{ $tn->id }}" @selected(request()->get('tingkat') == $tn->id)>{{ $tn->nama }}</option>
-            @endforeach
-        </select>
+    <form class="row w-50" method="GET" action="{{ route('admin.kelas') }}" id="kelasFilterForm">
+        <div class="col-md-6">
+            <select name="departemen" id="departemen" class="form-select">
+                <option value="" selected>--Pilih Departemen--</option>
+                @foreach ($departemen as $dep)
+                    <option value="{{ $dep->id }}">{{ $dep->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select name="tingkat" id="tingkat" class="form-select">
+                <option value="" selected>--Pilih Tingkat--</option>
+            </select>
+        </div>
     </form>
     <div class="d-flex justify-content-end gap-2">
         <button class="btn btn-primary rounded rounded-circle" data-bs-toggle="modal" data-bs-target="#createKelas">

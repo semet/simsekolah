@@ -8,6 +8,10 @@
             @auth('admin')
                 <x-admin.sidebar/>
             @endauth
+
+            @auth('operator')
+                <x-operator.sidebar/>
+            @endauth
         </div>
         <!-- Sidebar -->
     </div>

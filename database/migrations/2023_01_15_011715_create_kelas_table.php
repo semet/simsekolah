@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('departemen_id')
+                ->references('id')
+                ->on('departemens')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->uuid('tingkat_id')
                 ->references('id')
                 ->on('tingkats')

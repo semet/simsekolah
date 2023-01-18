@@ -1,5 +1,5 @@
 <div id="createKelas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <form class="modal-content needs-validation" action="{{ route('admin.kelas.store') }}" method="POST" novalidate>
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Input Data Kelas</h5>
@@ -10,12 +10,20 @@
                 @csrf
 
                 <div class="mb-3">
+                    <label for="departemenId" class="form-label">Departemen</label>
+                    <select name="departemenId" id="departemenId" class="form-select" required>
+                        <option value="" selected>--Pilih Departemen--</option>
+                        @foreach ($departemen as $dep)
+                            <option value="{{ $dep->id }}">{{ $dep->nama }}</option>
+                        @endforeach
+                    </select>
+                    <div class="invalid-feedback">
+                        Departemen harus diisi
+                    </div>
+                </div><div class="mb-3">
                     <label for="tingkatId" class="form-label">Tingkat</label>
                     <select name="tingkatId" id="tingkatId" class="form-select" required>
                         <option value="" selected>--Pilih Tingkat--</option>
-                        @foreach ($tingkat as $tnk)
-                            <option value="{{ $tnk->id }}">{{ $tnk->nama }}</option>
-                        @endforeach
                     </select>
                     <div class="invalid-feedback">
                         Tingkat harus diisi
