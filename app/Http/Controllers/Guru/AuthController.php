@@ -19,7 +19,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        $login = auth()->guard('operator')
+        $login = auth()->guard('guru')
             ->attempt([
                 'nip' => $request->nip,
                 'password' => $request->password,
