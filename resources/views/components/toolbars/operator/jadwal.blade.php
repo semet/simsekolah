@@ -1,8 +1,23 @@
 <div class="d-flex mb-3 justify-content-between">
-    <form class="row w-50" method="GET" action="{{ route('admin.kelas') }}" id="jadwalFilterForm">
-        <div class="col-md-6">
+    <form class="row w-50" method="GET" action="{{ route('operator.jadwal') }}" id="jadwalFilterForm">
+        <div class="col-md-2">
+            <select name="tahun" id="tahun" class="form-select">
+                <option value="" selected>--Tahun--</option>
+                @foreach ($tahun as $th)
+                    <option value="{{ $th->id }}">{{ $th->nama }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <select name="semester" id="semester" class="form-select">
+
+            </select>
+        </div>
+
+        <div class="col-md-2">
             <select name="tingkat" id="tingkat" class="form-select">
-                <option value="" selected>--Pilih Tingkat--</option>
+                <option value="" selected>--Tingkat--</option>
                 @foreach ($tingkat as $tnk)
                     <option value="{{ $tnk->id }}">{{ $tnk->nama }}</option>
                 @endforeach
@@ -10,7 +25,7 @@
         </div>
         <div class="col-md-2">
             <select name="kelas" id="kelas" class="form-select">
-                <option value="" selected>--Kelas--</option>
+
             </select>
         </div>
         <div class="col-md-4">

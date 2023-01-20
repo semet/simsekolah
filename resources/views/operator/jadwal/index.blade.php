@@ -63,13 +63,26 @@
 
         <script>
             $(document).ready(function () {
+                $('#tahun').change(function (e) {
+                    e.preventDefault();
+                    axios.get(`/general/semester-by-tahun?tahun=${e.target.value}`)
+                    .then((res) => {
+                        // determain which id is curently selcted
+                        $('#semester').empty();
+                        $('#semester').append(`<option value="" selected>--Semester--</option>`);
+                        $.each(res.data.semester, function (idx, semester) {
+                            $('#semester').append(`<option value="${semester.id}">${semester.nama}</option>`);
+                        });
+                    })
+                });
+
                 $('#tingkat').change(function (e) {
                     e.preventDefault();
                     axios.get(`/general/kelas-by-tingkat?tingkat=${e.target.value}`)
                     .then((res) => {
                         // determain which id is curently selcted
                         $('#kelas').empty();
-                        $('#kelas').append(`<option value="" selected>--Pilih Kelas--</option>`);
+                        $('#kelas').append(`<option value="" selected>--Kelas--</option>`);
                         $.each(res.data.kelas, function (idx, kelas) {
                             $('#kelas').append(`<option value="${kelas.id}">${kelas.nama}</option>`);
                         });
@@ -84,9 +97,7 @@
                     var kelas = $('#kelas').val();
                     var hari = $('#hari').val();
 
-                    location.href = `{{ route('operator.jadwal') }}?tingkat=${tingkat}&kelas=${kelas}&hari=${hari}`
-
-                    // $('#jadwalFilterForm').submit();
+                    $('#jadwalFilterForm').submit();
                 });
             });
         </script>

@@ -8,4 +8,18 @@
         </a>
     </li>
 
+    <li>
+        <a href="{{ route('siswa.jadwal') }}" class="waves-effect">
+            <i class="fas fa-calendar"></i>
+            <span>Jadwal</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="#" class="waves-effect">
+            <i class="fas fa-book"></i>
+            <span>Rapot</span>
+        </a>
+    </li>
+
 </ul>

@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Toolbars\Operator;
 
+use App\Models\Tahun;
 use App\Models\Tingkat;
 use Illuminate\View\Component;
 
@@ -24,6 +25,8 @@ class Jadwal extends Component
      */
     public function render()
     {
+        $tahun = Tahun::orderBy('awal')->get();
+
         $tingkat = Tingkat::where(
             'departemen_id', auth()
                                 ->guard('operator')
@@ -34,6 +37,7 @@ class Jadwal extends Component
         ->get();
 
         return view('components.toolbars.operator.jadwal', [
+            'tahun' => $tahun,
             'tingkat' => $tingkat
         ]);
     }

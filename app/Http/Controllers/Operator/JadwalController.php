@@ -7,12 +7,23 @@ use App\Http\Requests\JadwalCreateRequest;
 use App\Models\Guru;
 use App\Models\Jadwal;
 use App\Models\Tingkat;
+use App\Services\SemesterService;
+use App\Services\TahunService;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
 {
+    public $activeTahun;
+    public $activeSemester;
+
+
+    public function __construct(TahunService $tahun, SemesterService $semester)
+    {
+        $this->activeTahun = $tahun->getActiveId();
+        $this->activeSemester = $semester->getActiveId();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,11 +32,15 @@ class JadwalController extends Controller
     public function index()
     {
         $departemen = auth()->guard('operator')->user()->departemen->id;
+        $tahun = request()->tahun;
+        $semester = request()->semester;
         $tingkat = request()->tingkat;
         $kelas = request()->kelas;
         $hari = request()->hari;
 
         $jadwal = Jadwal::where('departemen_id', $departemen)
+                ->where('tahun_id', $tahun)
+                ->where('semester_id', $semester)
                 ->where('tingkat_id', $tingkat)
                 ->where('kelas_id', $kelas)
                 ->where('hari', $hari)
@@ -62,6 +77,8 @@ class JadwalController extends Controller
         try{
             $jadwal = new Jadwal();
             $jadwal->departemen_id = auth()->guard('operator')->user()->departemen->id;
+            $jadwal->tahun_id = $this->activeTahun;
+            $jadwal->semester_id = $this->activeSemester;
             $jadwal->tingkat_id = $request->tingkatId;
             $jadwal->kelas_id = $request->kelasId;
             $jadwal->guru_id = $request->guruId;
