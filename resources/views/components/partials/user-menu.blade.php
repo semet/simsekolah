@@ -14,7 +14,7 @@
         <a class="dropdown-item text-danger"
             href="@auth('admin') {{ route('admin.logout') }}
             @endauth @auth('operator') {{ route('operator.logout') }} @endauth
-            @auth('guru') {{ route('guru.logout') }} @endauth"
+            @auth('guru') {{ route('guru.logout') }} @endauth
             @auth('siswa') {{ route('siswa.logout') }} @endauth">
             <i class="bx bx-power-off font-size-17 align-middle me-1 text-danger"></i>
              Logout
