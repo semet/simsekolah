@@ -27,6 +27,18 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->uuid('tahun_id')
+                ->references('id')
+                ->on('tahuns')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->uuid('semester_id')
+                ->references('id')
+                ->on('semesters')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->uuid('kelas_id')
                 ->references('id')
                 ->on('kelas')

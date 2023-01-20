@@ -14,6 +14,8 @@ class Jadwal extends Model
     protected $fillable = [
         'departemen_id',
         'tingkat_id',
+        'tahun_id',
+        'semester_id',
         'kelas_id',
         'guru_id',
         'hari',
@@ -29,6 +31,16 @@ class Jadwal extends Model
     public function tingkat(): BelongsTo
     {
         return $this->belongsTo(Tingkat::class);
+    }
+
+    public function tahun(): BelongsTo
+    {
+        return $this->belongsTo(Tahun::class);
+    }
+
+    public function semester(): BelongsTo
+    {
+        return $this->belongsTo(Semester::class);
     }
 
     public function kelas(): BelongsTo
