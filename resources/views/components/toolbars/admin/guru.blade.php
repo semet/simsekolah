@@ -8,6 +8,11 @@
                 @endforeach
             </select>
         </div>
+        <div class="col-md-4">
+            <select name="tingkat" id="tingkat" class="form-select">
+                <option value="" selected>--Pilih Tingkat--</option>
+            </select>
+        </div>
         <div class="col md-6">
             <input type="text" class="form-control" placeholder="Search by NIP ">
         </div>
