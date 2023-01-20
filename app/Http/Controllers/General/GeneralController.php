@@ -5,6 +5,7 @@ namespace App\Http\Controllers\General;
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Semester;
 use App\Models\Tingkat;
 use Illuminate\Http\Request;
 
@@ -43,6 +44,17 @@ class GeneralController extends Controller
         return response()->json([
             'tingkatId' => $guru->tingkat->id,
             'kelas' => $kelas
+        ]);
+    }
+
+    public function semesterByTahun()
+    {
+        $semester = Semester::where('tahun_id', request()->tahun)
+                ->select(['id', 'nama'])
+                ->get();
+
+        return response()->json([
+            'semester' => $semester
         ]);
     }
 }
