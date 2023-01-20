@@ -16,6 +16,10 @@
             @auth('guru')
                 <x-guru.sidebar/>
             @endauth
+
+            @auth('siswa')
+                <x-siswa.sidebar/>
+            @endauth
         </div>
         <!-- Sidebar -->
     </div>
