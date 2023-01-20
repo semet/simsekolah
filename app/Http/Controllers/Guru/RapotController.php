@@ -29,16 +29,7 @@ class RapotController extends Controller
 
     public function index()
     {
-        $rapot = Rapot::where('tahun_id', request()->tahunId)
-                ->where('semester_id', request()->semesterId)
-                ->where('guru_id', auth()->guard('guru')->id())
-                ->where('mapel_id', auth()->guard('guru')->user()->mapel->id)
-                ->where('kelas_id', request()->kelasId)
-                ->get();
-
-        return view('guru.rapot.index', [
-            'rapot' => $rapot
-        ]);
+        return view('guru.rapot.index');
     }
 
     public function getRapot(Request $request)
