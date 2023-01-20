@@ -25,5 +25,11 @@ Route::middleware(['guru'])->group(function() {
     //Rapot Routes
     Route::controller(RapotController::class)->group(function() {
         Route::get('rapot', 'index')->name('guru.rapot');
+        Route::get('rapot/create', 'create')->name('guru.rapot.create');
+        Route::get('rapot/list', 'getRapot')->name('guru.rapot.list');
+        Route::post('rapot', 'store')->name('guru.rapot.store');
+        Route::post('rapot/update', 'update')->name('guru.rapot.update');
+        Route::get('rapot/export-excel', 'exportExcel')->name('guru.rapot.export-excel');
+        Route::get('rapot/export-pdf', 'exportPdf')->name('guru.rapot.export-pdf');
     });
 });

@@ -14,4 +14,5 @@ Route::controller(GeneralController::class)
     Route::get('tingkat-by-departemen', 'tingkatByDepartemen')->name('general.tingkat.by.departemen');
     Route::get('kelas-by-tingkat', 'kelasByTingkat')->name('general.kelas.by.tingkat');
     Route::get('kelas-by-guru', 'kelasByGuru')->name('general.kelas.by.guru');
+    Route::get('semester-by-tahun', 'semesterByTahun')->name('general.semester.by.tahun');
 });

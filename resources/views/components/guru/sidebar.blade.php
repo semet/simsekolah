@@ -18,7 +18,13 @@
     <li>
         <a href="{{ route('guru.rapot') }}" class="waves-effect">
             <i class="fas fa-book"></i>
-            <span>Rapot</span>
+            <span>Lihat Rapot</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('guru.rapot.create') }}" class="waves-effect">
+            <i class="fas fa-book"></i>
+            <span>Input Rapot</span>
         </a>
     </li>
 

@@ -22,6 +22,6 @@ class SemesterService {
      */
     public function getActiveId()
     {
-        return $this->semester->where('aktif', 1)->first();
+        return $this->semester->where('aktif', 1)->first()->id;
     }
 }

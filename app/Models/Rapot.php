@@ -16,6 +16,7 @@ class Rapot extends Model
         'semester_id',
         'guru_id',
         'mapel_id',
+        'kelas_id',
         'siswa_id',
         'nilai'
     ];
@@ -38,6 +39,11 @@ class Rapot extends Model
     public function mapel(): BelongsTo
     {
         return $this->belongsTo(Mapel::class);
+    }
+
+    public function kelas(): BelongsTo
+    {
+        return $this->belongsTo(Kelas::class);
     }
 
     public function siswa(): BelongsTo

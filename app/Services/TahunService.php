@@ -22,6 +22,6 @@ class TahunService {
      */
     public function getActiveId()
     {
-        return $this->tahun->where('aktif', 1)->first();
+        return $this->tahun->where('aktif', 1)->first()->id;
     }
 }
