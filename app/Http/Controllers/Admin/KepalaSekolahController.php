@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KepalaSekolahCreateRequest;
+use App\Http\Requests\KepalaSekolahUpdateRequest;
 use App\Models\Departemen;
 use App\Models\KepalaSekolah;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 class KepalaSekolahController extends Controller
 {
@@ -21,9 +23,7 @@ class KepalaSekolahController extends Controller
     public function index()
     {
         $kepsek = KepalaSekolah::with('departemen')
-                ->get();
-
-
+            ->get();
 
         return view('admin.kepsek.index', [
             'kepsek' => $kepsek,
@@ -38,7 +38,7 @@ class KepalaSekolahController extends Controller
     public function create()
     {
         $departemen = Departemen::doesntHave('kepalaSekolah')
-                ->get();
+            ->get();
         return view('admin.kepsek.create', [
             'departemen' => $departemen
         ]);
@@ -54,7 +54,7 @@ class KepalaSekolahController extends Controller
     {
         DB::beginTransaction();
 
-        try{
+        try {
             $kepsek = new KepalaSekolah();
             $kepsek->departemen_id = $request->departemenId;
             $kepsek->nip = $request->nip;
@@ -67,9 +67,9 @@ class KepalaSekolahController extends Controller
             $kepsek->tempat_lahir = $request->tempatLahir;
             $kepsek->tanggal_lahir = $request->tanggalLahir;
 
-            if($request->hasFile('foto')){
+            if ($request->hasFile('foto')) {
                 $file = $request->file('foto');
-                $fileName = $request->nip.'.'.$file->getClientOriginalExtension();
+                $fileName = $request->nip . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/kepsek', $fileName);
 
@@ -83,14 +83,13 @@ class KepalaSekolahController extends Controller
             return redirect()
                 ->route('admin.kepsek')
                 ->with('message', 'Input data Kepala Sekolah berhasil.');
-
-        }catch (Exception $e) {
+        } catch (Exception $e) {
 
             DB::rollBack();
 
-            if($e instanceof QueryException){
+            if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
+            } else {
                 return back()->with('error', $e->getMessage());
             }
         }
@@ -108,14 +107,20 @@ class KepalaSekolahController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for dd($kepsek);editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(KepalaSekolah $kepsek)
     {
-        //
+        $departemen = Departemen::orderBy('nama')
+            ->get();
+
+        return view('admin.kepsek.edit', [
+            'kepsek' => $kepsek,
+            'departemen' => $departemen
+        ]);
     }
 
     /**
@@ -125,9 +130,37 @@ class KepalaSekolahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(KepalaSekolahUpdateRequest $request, $id)
     {
-        //
+        try {
+            $kepsek = KepalaSekolah::find($id);
+            $kepsek->departemen_id = $request->departemenId;
+            $kepsek->nip = $request->nip;
+            $kepsek->nama = $request->nama;
+            $kepsek->jenis_kelamin = $request->jenisKelamin;
+            $kepsek->alamat = $request->alamat;
+            $kepsek->tempat_lahir = $request->tempatLahir;
+            $kepsek->tanggal_lahir = $request->tanggalLahir;
+
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $fileName = $request->nip . '.' . $file->getClientOriginalExtension();
+                //delete previous image
+                if (Storage::exists('public/kepsek/' . $kepsek->foto)) {
+                    Storage::delete('public/kepsek/' . $kepsek->foto);
+                }
+                $file->storeAs('public/kepsek', $fileName);
+
+                $kepsek->foto = $fileName;
+            }
+            $kepsek->save();
+
+            return redirect()
+                ->route('admin.kepsek')
+                ->with('message', 'Update data Kepala Sekolah berhasil.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -136,8 +169,14 @@ class KepalaSekolahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = KepalaSekolah::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Kepala Sekolah berhasil dihapus"
+            ], 201);
+        }
     }
 }
