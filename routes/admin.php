@@ -38,11 +38,17 @@ Route::middleware(['admin'])->group(function () {
         Route::get('kepsek', 'index')->name('admin.kepsek');
         Route::get('kepsek/create', 'create')->name('admin.kepsek.create');
         Route::post('kepsek', 'store')->name('admin.kepsek.store');
+        Route::get('kepsek/{kepsek}/edit', 'edit')->name('admin.kepsek.edit');
+        Route::post('kepsek/update/{id}', 'update')->name('admin.kepsek.update');
+        Route::post('kepsek/delete', 'destroy')->name('admin.kepsek.delete');
     });
     //Tahun routes
     Route::controller(TahunController::class)->group(function () {
         Route::get('tahun', 'index')->name('admin.tahun');
         Route::post('tahun', 'store')->name('admin.tahun.store');
+        Route::get('tahun/{tahun}/edit', 'edit')->name('admin.tahun.edit');
+        Route::post('tahun/update', 'update')->name('admin.tahun.update');
+        Route::post('tahun/delete', 'destroy')->name('admin.tahun.delete');
     });
     //Semester routes
     Route::controller(SemesterController::class)->group(function () {

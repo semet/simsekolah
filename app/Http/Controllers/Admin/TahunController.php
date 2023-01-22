@@ -45,12 +45,12 @@ class TahunController extends Controller
      */
     public function store(TahunCreateRequest $request)
     {
-        if(Carbon::parse($request->awal)->greaterThan(Carbon::parse($request->akhir)) ){
+        if (Carbon::parse($request->awal)->greaterThan(Carbon::parse($request->akhir))) {
             return back()->with('error', 'Tahun awal harus lebih kecil dari tahun akhir');
         }
         DB::beginTransaction();
 
-        try{
+        try {
             $tahun = new Tahun();
             $tahun->nama = $request->nama;
             $tahun->awal = $request->awal;
@@ -64,16 +64,15 @@ class TahunController extends Controller
             return redirect()
                 ->route('admin.tahun')
                 ->with('message', 'Input data Tahun berhasil.');
-        }catch(Exception $e){
+        } catch (Exception $e) {
 
             DB::rollBack();
 
-            if($e instanceof QueryException){
+            if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
+            } else {
                 return back()->with('error', $e->getMessage());
             }
-
         }
     }
 
@@ -96,7 +95,11 @@ class TahunController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tahun = Tahun::find($id);
+
+        return response()->json([
+            'tahun' => $tahun
+        ]);
     }
 
     /**
@@ -106,9 +109,19 @@ class TahunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $tahun = Tahun::find($request->idEdit);
+            $tahun->nama = $request->namaEdit;
+            $tahun->awal = $request->awalEdit;
+            $tahun->akhir = $request->akhirEdit;
+            $tahun->save();
+
+            return back()->with('message', 'Update data tahun berhasil');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -117,8 +130,14 @@ class TahunController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = Tahun::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Tahun berhasil dihapus"
+            ], 201);
+        }
     }
 }

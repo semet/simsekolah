@@ -25,20 +25,6 @@ class Tahun extends Model
         return $this->hasMany(Semester::class);
     }
 
-    protected function awal(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d, M Y')
-        );
-    }
-
-    protected function akhir(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d, M Y')
-        );
-    }
-
     public function rapot(): HasMany
     {
         return $this->hasMany(Rapot::class);
@@ -48,6 +34,4 @@ class Tahun extends Model
     {
         return $this->hasMany(Jadwal::class);
     }
-
-
 }
