@@ -35,7 +35,7 @@ class KepalaSekolahCreateRequest extends FormRequest
             'tempatLahir' => 'required',
             'tanggalLahir' => 'required',
             'foto' => File::types(['jpg', 'png'])
-                    ->max(12 * 1024)
+                ->max(12 * 1024)
         ];
     }
 }
