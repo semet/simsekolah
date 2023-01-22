@@ -1,6 +1,6 @@
 <div id="createDepartemen" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content needs-validation" method="POST" novalidate>
+        <form class="modal-content needs-validation" method="POST"  action="{{ route('admin.departemen.store') }}" novalidate>
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Input Data Departemen</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
