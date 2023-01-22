@@ -32,14 +32,14 @@
                             <td>{{ $dep->nama }}</td>
                             <td>{{ $dep->keterangan }}</td>
                             <td>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Departemen Options">
                                     <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editDepartemen" id="{{ $dep->id }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger" onclick="deleteDepartemen('{{ $dep->id }}')">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
-                                  </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
