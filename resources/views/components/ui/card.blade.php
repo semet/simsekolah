@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-{{ $width }}">
+    <div {{ $attributes->merge(['class' => 'col-md-'.$width]) }} >
         <div class="card">
             <div class="card-body">
                 @if ($title)
