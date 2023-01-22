@@ -37,9 +37,9 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->guard('guru')->logout();
+        auth()->guard('siswa')->logout();
         session()->regenerate();
 
-        return redirect()->route('guru.login.show');
+        return redirect()->route('siswa.login.show');
     }
 }
