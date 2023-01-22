@@ -49,6 +49,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('tahun/{tahun}/edit', 'edit')->name('admin.tahun.edit');
         Route::post('tahun/update', 'update')->name('admin.tahun.update');
         Route::post('tahun/delete', 'destroy')->name('admin.tahun.delete');
+        Route::get('tahun/{id}/toggle', 'toggle')->name('admin.tahun.toggle');
     });
     //Semester routes
     Route::controller(SemesterController::class)->group(function () {

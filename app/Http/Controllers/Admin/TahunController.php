@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TahunCreateRequest;
 use App\Models\Tahun;
+use App\Services\TahunService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -77,14 +78,17 @@ class TahunController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Toggle aktif status
      *
      * @param  int  $id
+     * @param  App\Services\TahunService $tahunService
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function toggle(TahunService $tahunService, $id)
     {
-        //
+        $tahunService->toggleActive($id);
+
+        return back();
     }
 
     /**

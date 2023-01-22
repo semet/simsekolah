@@ -32,13 +32,15 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $th->nama }}</td>
-                            <td>{{ $th->awal }}</td>
-                            <td>{{ $th->akhir }}</td>
+                            <td>{{ \Carbon\Carbon::parse($th->awal)->format('d, M Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($th->akhir)->format('d, M Y') }}</td>
                             <td>
                                 @if($th->aktif)
                                 <span class="badge bg-primary">Aktif</span>
                                 @else
-                                <span class="badge bg-danger">Nonaktif</span>
+                                <a href="{{ route('admin.tahun.toggle', $th->id) }}">
+                                    <span class="badge bg-danger">Nonaktif</span>
+                                </a>
                                 @endif
                             </td>
                             <td>
