@@ -18,6 +18,7 @@ class DepartemenController extends Controller
     public function index()
     {
         $departemen = Departemen::latest()->get();
+
         return view('admin.departemen.index', [
             'departemen' => $departemen
         ]);
@@ -45,19 +46,17 @@ class DepartemenController extends Controller
             'namaDepartemen' => 'required'
         ]);
 
-        try{
+        try {
             $departemen = new Departemen();
             $departemen->nama = $request->namaDepartemen;
             $departemen->keterangan = $request->keterangan;
             $departemen->save();
 
             return back()->with('message', 'Input data departemen berhasil!');
-        }catch(Exception $e){
-            if($e instanceof QueryException){
-                return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
-                return back()->with('error', $e->getMessage());
-            }
+        } catch (QueryException $e) {
+            return back()->with('error', 'Base table or view not found! Please run migration.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -80,29 +79,47 @@ class DepartemenController extends Controller
      */
     public function edit($id)
     {
-        //
+        $departemen = Departemen::find($id);
+
+        return response()->json([
+            'departemen' => $departemen
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $departemen = Departemen::find($request->departemenIdEdit);
+            $departemen->nama = $request->namaDepartemenEdit;
+            $departemen->keterangan = $request->keteranganEdit;
+            $departemen->save();
+
+            return back()->with('message', 'Update data departemen berhasil');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = Departemen::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Departemen berhasil dihapus"
+            ], 201);
+        }
     }
 }
