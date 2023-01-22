@@ -16,7 +16,7 @@
     </li>
 
     <li>
-        <a href="#" class="waves-effect">
+        <a href="{{ route('siswa.rapot') }}" class="waves-effect">
             <i class="fas fa-book"></i>
             <span>Rapot</span>
         </a>
