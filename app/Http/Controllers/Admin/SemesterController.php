@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SemesterCreateRequest;
 use App\Models\Semester;
 use App\Models\Tahun;
+use App\Services\SemesterService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -23,7 +24,7 @@ class SemesterController extends Controller
     {
 
         $semester  = Semester::where('tahun_id', request()->tahun)
-                ->get();
+            ->get();
 
         return view('admin.semester.index', [
             'semester' => $semester
@@ -48,12 +49,12 @@ class SemesterController extends Controller
      */
     public function store(Request $request)
     {
-        if(Carbon::parse($request->awal)->greaterThan(Carbon::parse($request->akhir)) ){
+        if (Carbon::parse($request->awal)->greaterThan(Carbon::parse($request->akhir))) {
             return back()->with('error', 'Tahun awal harus lebih kecil dari tahun akhir');
         }
         DB::beginTransaction();
 
-        try{
+        try {
             $semester = new Semester();
             $semester->tahun_id = $request->tahunId;
             $semester->nama = $request->nama;
@@ -66,19 +67,31 @@ class SemesterController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('admin.semester', 'tahun='.$request->tahunId)
+                ->route('admin.semester', 'tahun=' . $request->tahunId)
                 ->with('message', 'Input data Semester berhasil.');
-        }catch(Exception $e){
+        } catch (Exception $e) {
 
             DB::rollBack();
 
-            if($e instanceof QueryException){
+            if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
+            } else {
                 return back()->with('error', $e->getMessage());
             }
-
         }
+    }
+    /**
+     * Toggle aktif status
+     *
+     * @param  int  $id
+     * @param  App\Services\SemesterService $semesterService
+     * @return \Illuminate\Http\Response
+     */
+    public function toggle(SemesterService $semesterService, $id)
+    {
+        $semesterService->toggleActive($id);
+
+        return back();
     }
 
     /**
@@ -100,7 +113,11 @@ class SemesterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $semester = Semester::find($id);
+
+        return response()->json([
+            'semester' => $semester
+        ]);
     }
 
     /**
@@ -110,19 +127,44 @@ class SemesterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'tahunIdEdit' => 'required',
+            'namaEdit' => 'required',
+            'awalEdit' => 'required',
+            'akhirEdit' => 'required',
+        ]);
+        try {
+            $semester = Semester::find($request->idEdit);
+            $semester->tahun_id = $request->tahunIdEdit;
+            $semester->nama = $request->namaEdit;
+            $semester->awal = $request->awalEdit;
+            $semester->akhir = $request->akhirEdit;
+            $semester->save();
+
+            return back()
+                ->with('message', 'Update data semester berhasil');
+        } catch (Exception $e) {
+            return back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = Semester::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Semester berhasil dihapus"
+            ], 201);
+        }
     }
 }
