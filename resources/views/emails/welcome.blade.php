@@ -9,5 +9,6 @@
 <body>
     <h1>Selamat Datang Pak Kepala Sekolah</h1>
     <h2>{{ $kepsek->nama }}</h2>
+    <p>Silakan klik <a href="{{ route('kepsek.email.verify', $kepsek->id) }}">link</a> ini untuk aktivasi Akun anda</p>
 </body>
 </html>
