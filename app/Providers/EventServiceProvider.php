@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\KepsekCreated;
+use App\Listeners\SendAccountActivationCode;
 use App\Listeners\UploadImageKepsek;
 use App\Listeners\WelcomeKepsek;
 use Illuminate\Auth\Events\Registered;
