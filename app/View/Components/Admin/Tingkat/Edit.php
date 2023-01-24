@@ -5,7 +5,7 @@ namespace App\View\Components\Admin\Tingkat;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class Create extends Component
+class Edit extends Component
 {
     /**
      * Create a new component instance.
@@ -24,6 +24,6 @@ class Create extends Component
      */
     public function render()
     {
-        return view('components.admin.tingkat.create');
+        return view('components.admin.tingkat.edit');
     }
 }

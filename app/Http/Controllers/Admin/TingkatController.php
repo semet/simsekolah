@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTingkatRequest;
+use App\Models\Departemen;
 use App\Models\Tingkat;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -20,11 +21,15 @@ class TingkatController extends Controller
     public function index()
     {
         $tingkat = Tingkat::where('departemen_id', request()->departemen)
-                ->orderBy('nama')
-                ->get();
+            ->orderBy('nama')
+            ->get();
 
+        $departemen = Departemen::select(['id', 'nama'])
+            ->orderBy('nama')
+            ->get();
         return view('admin.tingkat.index', [
-            'tingkat' => $tingkat
+            'tingkat' => $tingkat,
+            'departemen' => $departemen
         ]);
         //
     }
@@ -49,7 +54,7 @@ class TingkatController extends Controller
     {
         DB::beginTransaction();
 
-        try{
+        try {
             $tingkat = new Tingkat();
             $tingkat->departemen_id = $request->departemenId;
             $tingkat->nama = $request->nama;
@@ -59,14 +64,14 @@ class TingkatController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('admin.tingkat', 'departemen='.$request->departemenId)
+                ->route('admin.tingkat', 'departemen=' . $request->departemenId)
                 ->with('message', 'Input data Departemen berhasil.');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
 
-            if($e instanceof QueryException){
+            if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
+            } else {
                 return back()->with('error', $e->getMessage());
             }
         }
@@ -91,7 +96,11 @@ class TingkatController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tingkat = Tingkat::find($id);
+
+        return response()->json([
+            'tingkat' => $tingkat
+        ]);
     }
 
     /**
@@ -101,19 +110,41 @@ class TingkatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'departemenIdEdit' => 'required',
+            'namaEdit' => 'required'
+        ]);
+
+        try {
+            $tingkat = Tingkat::find($request->idEdit);
+            $tingkat->departemen_id = $request->departemenIdEdit;
+            $tingkat->nama = $request->namaEdit;
+            $tingkat->save();
+
+            return back()
+                ->with('message', 'Update data tingkat berhasil');
+        } catch (Exception $e) {
+            return back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = Tingkat::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Semester berhasil dihapus"
+            ], 201);
+        }
     }
 }
