@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\KepsekCreated;
+use App\Events\SomeoneIsTryingToLogin;
 use App\Listeners\SendAccountActivationCode;
+use App\Listeners\SendOneTimePassword;
 use App\Listeners\UploadImageKepsek;
 use App\Listeners\WelcomeKepsek;
 use Illuminate\Auth\Events\Registered;
@@ -19,12 +21,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        SomeoneIsTryingToLogin::class => [
+            SendOneTimePassword::class
+        ],
+
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
         KepsekCreated::class => [
             WelcomeKepsek::class,
-        ]
+        ],
     ];
 
     /**
