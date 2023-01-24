@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\KepsekCreated;
+use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KepalaSekolahCreateRequest;
 use App\Http\Requests\KepalaSekolahUpdateRequest;
 use App\Models\Departemen;
 use App\Models\KepalaSekolah;
+use Event;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Storage;
 
 class KepalaSekolahController extends Controller
@@ -52,8 +56,6 @@ class KepalaSekolahController extends Controller
      */
     public function store(KepalaSekolahCreateRequest $request)
     {
-        DB::beginTransaction();
-
         try {
             $kepsek = new KepalaSekolah();
             $kepsek->departemen_id = $request->departemenId;
@@ -77,16 +79,12 @@ class KepalaSekolahController extends Controller
             }
 
             $kepsek->save();
-
-            DB::commit();
+            KepsekCreated::dispatch($kepsek);
 
             return redirect()
                 ->route('admin.kepsek')
                 ->with('message', 'Input data Kepala Sekolah berhasil.');
         } catch (Exception $e) {
-
-            DB::rollBack();
-
             if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
             } else {
@@ -171,11 +169,20 @@ class KepalaSekolahController extends Controller
      */
     public function destroy(Request $request)
     {
-        $delete = KepalaSekolah::find($request->id)
-            ->delete();
-        if ($delete) {
+        try {
+            $kepsek = KepalaSekolah::find($request->id);
+            $foto = 'public/kepsek/' . $kepsek->foto;
+            if (Storage::exists($foto)) {
+                Storage::delete($foto);
+            }
+            $kepsek->delete();
+
             return response()->json([
                 'message' => "Kepala Sekolah berhasil dihapus"
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
             ], 201);
         }
     }
