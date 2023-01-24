@@ -20,6 +20,10 @@ Route::controller(AuthController::class)->group(function () {
         ->middleware('guest:admin');
     Route::post('login', 'login')->name('admin.login');
     Route::get('logout', 'logout')->name('admin.logout');
+    Route::get('otp', 'otpForm')
+        ->name('admin.otp.show')
+        ->middleware('guest:admin');
+    Route::post('otp', 'verify')->name('admin.otp.verify');
 });
 
 Route::middleware(['admin'])->group(function () {
