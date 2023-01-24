@@ -64,6 +64,9 @@ Route::middleware(['admin'])->group(function () {
     Route::controller(TingkatController::class)->group(function () {
         Route::get('tingkat', 'index')->name('admin.tingkat');
         Route::post('tingkat', 'store')->name('admin.tingkat.store');
+        Route::get('tingkat/{id}/edit', 'edit')->name('admin.tingkat.edit');
+        Route::post('tingkat/update', 'update')->name('admin.tingkat.update');
+        Route::post('tingkat/delete', 'destroy')->name('admin.tingkat.delete');
     });
     //Kelas routes
     Route::controller(KelasController::class)->group(function () {
