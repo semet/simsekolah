@@ -16,6 +16,7 @@ class KepalaSekolah extends Model
         'nip',
         'nama',
         'email',
+        'email_verified_at',
         'telepon',
         'password',
         'jenis_kelamin',
