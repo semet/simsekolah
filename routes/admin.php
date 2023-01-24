@@ -55,6 +55,10 @@ Route::middleware(['admin'])->group(function () {
     Route::controller(SemesterController::class)->group(function () {
         Route::get('semester', 'index')->name('admin.semester');
         Route::post('semester', 'store')->name('admin.semester.store');
+        Route::get('semester/{id}/edit', 'edit')->name('admin.semester.edit');
+        Route::post('semester/update', 'update')->name('admin.semester.update');
+        Route::get('semester/{id}/toggle', 'toggle')->name('admin.semester.toggle');
+        Route::post('semester/delete', 'destroy')->name('admin.semester.delete');
     });
     //Tingkat routes
     Route::controller(TingkatController::class)->group(function () {
