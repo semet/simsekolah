@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="nip" class="form-label">NIP Lengkap</label>
+                        <label for="nip" class="form-label">NIP</label>
                         <input type="text" class="form-control @error('nip') is-invalid @enderror" name="nip" id="nip">
                     </div>
 
