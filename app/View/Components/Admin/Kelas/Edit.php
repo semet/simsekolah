@@ -2,12 +2,10 @@
 
 namespace App\View\Components\Admin\Kelas;
 
-use App\Models\Departemen;
-use App\Models\Tingkat;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class Create extends Component
+class Edit extends Component
 {
     /**
      * Create a new component instance.
@@ -27,6 +25,7 @@ class Create extends Component
      */
     public function render()
     {
-        return view('components.admin.kelas.create');
+
+        return view('components.admin.kelas.edit');
     }
 }

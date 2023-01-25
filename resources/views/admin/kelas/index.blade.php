@@ -4,7 +4,7 @@
     {{-- Toolbars --}}
     <x-toolbars.admin.kelas/>
     {{-- Card --}}
-    <x-ui.card>
+    <x-ui.card width="8" class="mx-auto">
         @if(session('message'))
             <div class="py-3">
                 <x-ui.alert type="success" message="{{ session('message') }}" />
@@ -33,7 +33,16 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $kls->nama }}</td>
                                 <td>{{ $kls->kapasitas }}</td>
-                                <td>@mdo</td>
+                                <td class="d-flex justify-content-end">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Tahun Options">
+                                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editKelas" id="{{ $kls->id }}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger" onclick="deleteKelas('{{ $kls->id }}')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -51,17 +60,18 @@
     </x-ui.card>
 
     @push('styles')
-
+        <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @endpush
 
     @push('scripts')
+        <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('assets/libs/parsleyjs/parsley.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/form-validation.init.js') }}"></script>
         <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
 
         <script>
             $(document).ready(function () {
-                $('#departemen, #departemenId').change(function (e) {
+                $('#departemen, #departemenId, #departemenIdEdit').change(function (e) {
                     e.preventDefault();
                     if(e.target.value == '' || e.target.value == '{{ request()->get('tingkat') }}'){
                         return;
@@ -74,6 +84,12 @@
                             $('#tingkat').append(`<option value="" selected>--Pilih Tingkat--</option>`);
                             $.each(res.data.tingkat, function (idx, tingkat) {
                                 $('#tingkat').append(`<option value="${tingkat.id}">${tingkat.nama}</option>`);
+                            });
+                        }else if($(this)[0].id === 'departemenIdEdit') {
+                            $('#tingkatIdEdit').empty();
+                            $('#tingkatIdEdit').append(`<option value="" selected>--Pilih Tingkat--</option>`);
+                            $.each(res.data.tingkat, function (idx, tingkat) {
+                                $('#tingkatIdEdit').append(`<option value="${tingkat.id}">${tingkat.nama}</option>`);
                             });
                         }else{
                             $('#tingkatId').empty();
@@ -90,10 +106,56 @@
                     e.preventDefault();
                     $('#kelasFilterForm').submit()
                 });
+                //
+                $('#editKelas').on('show.bs.modal', function (e) {
+                    const id = e.relatedTarget.id;
+                    const url = '{{ route('admin.kelas.edit', ':param') }}'
+                    const parsedUrl = url.replace(':param', id)
+
+                    axios.get(parsedUrl)
+                    .then(function (response) {
+                        $('#idEdit').val(response.data.kelas.id);
+                        $('#namaEdit').val(response.data.kelas.nama);
+                    }).then(function () {
+                        console.log($('#departemenIdEdit').val())
+                    })
+                })
             });
+            // delete
+            function deleteKelas (id) {
+                Swal.fire({
+                    title: "Anda yakin?",
+                    text: "Proses ini tidak bisa dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#34c38f",
+                    cancelButtonColor: "#f46a6a",
+                    confirmButtonText: "Ya, hapus!"
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        axios.post('{{ route('admin.kelas.delete') }}', {
+                            _token: '{{ csrf_token() }}',
+                            id: id
+                        }).then(function(response) {
+                            if(response.status === 201) {
+                                Swal.fire("Berhasil!", response.data.message, "success")
+                                .then(function (result) {
+                                    if(result.isConfirmed) {
+                                        location.reload()
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }).then(function(result) {
+                    console.log(result)
+                });
+            }
         </script>
     @endpush
-
-    <x-admin.kelas.create/>
+    {{-- Create --}}
+    <x-admin.kelas.create :departemen="$departemen"/>
+    {{-- Edit --}}
+    <x-admin.kelas.edit :departemen="$departemen"/>
 
 </x-layouts.main>

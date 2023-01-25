@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KelasCreateRequest;
+use App\Models\Departemen;
 use App\Models\Kelas;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -22,9 +23,11 @@ class KelasController extends Controller
         $kelas = Kelas::where('tingkat_id', request()->tingkat)
             ->orderBy('nama')
             ->get();
-
+        $departemen = Departemen::orderBy('nama')
+            ->get();
         return view('admin.kelas.index', [
-            'kelas' => $kelas
+            'kelas' => $kelas,
+            'departemen' => $departemen
         ]);
     }
 
@@ -48,7 +51,7 @@ class KelasController extends Controller
     {
         DB::beginTransaction();
 
-        try{
+        try {
             $kelas = new Kelas();
             $kelas->departemen_id = $request->departemenId;
             $kelas->tingkat_id = $request->tingkatId;
@@ -62,13 +65,12 @@ class KelasController extends Controller
             return redirect()
                 ->route('admin.kelas')
                 ->with('message', 'Input data Kelas berhasil.');
-
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
 
-            if($e instanceof QueryException){
+            if ($e instanceof QueryException) {
                 return back()->with('error', 'Base table or view not found! Please run migration.');
-            }else{
+            } else {
                 return back()->with('error', $e->getMessage());
             }
         }
@@ -93,7 +95,11 @@ class KelasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kelas = Kelas::find($id);
+
+        return response()->json([
+            'kelas' => $kelas
+        ]);
     }
 
     /**
@@ -103,19 +109,45 @@ class KelasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'idEdit' => 'required',
+            'departemenIdEdit' => 'required',
+            'tingkatIdEdit' => 'required',
+            'namaEdit' => 'required'
+        ]);
+
+        try {
+            $kelas = Kelas::find($request->idEdit);
+            $kelas->departemen_id = $request->departemenIdEdit;
+            $kelas->tingkat_id = $request->tingkatIdEdit;
+            $kelas->nama = $request->namaEdit;
+            $kelas->kapasitas = $request->kapasitasEdit;
+            $kelas->save();
+
+            return back()
+                ->with('message', 'Update data kelas berhasil');
+        } catch (Exception $e) {
+            return back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $delete = Kelas::find($request->id)
+            ->delete();
+        if ($delete) {
+            return response()->json([
+                'message' => "Kelas berhasil dihapus"
+            ], 201);
+        }
     }
 }
