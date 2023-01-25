@@ -23,10 +23,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('otp', 'otpForm')
         ->name('admin.otp.show')
         ->middleware('guest:admin');
-    Route::post('otp', 'verify')->name('admin.otp.verify');
+    Route::post('otp', 'verifyOtp')->name('admin.otp.verify');
 });
 
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['admin', 'pass.otp:admin'])->group(function () {
     //Home route
     Route::get('home', [HomeController::class, 'index'])->name('admin.home');
     //Deppartemen routes
@@ -76,6 +76,9 @@ Route::middleware(['admin'])->group(function () {
     Route::controller(KelasController::class)->group(function () {
         Route::get('kelas', 'index')->name('admin.kelas');
         Route::post('kelas', 'store')->name('admin.kelas.store');
+        Route::get('kelas/{id}/edit', 'edit')->name('admin.kelas.edit');
+        Route::post('kelas/update', 'update')->name('admin.kelas.update');
+        Route::post('kelas/delete', 'destroy')->name('admin.kelas.delete');
     });
     //Mapel (Mata Pelajaran) routes
     Route::controller(MapelController::class)->group(function () {

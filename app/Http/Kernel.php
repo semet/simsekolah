@@ -54,6 +54,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'pass.otp' => \App\Http\Middleware\ShouldPassOtp::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'operator' => \App\Http\Middleware\OperatorMiddleware::class,
         'guru' => \App\Http\Middleware\GuruMiddleware::class,
