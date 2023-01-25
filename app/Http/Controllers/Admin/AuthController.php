@@ -6,6 +6,8 @@ use App\Events\SomeoneIsTryingToLogin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Otp;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,67 +15,85 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * show Login form
+     *
+     * @return void
+     */
     public function showLogin()
     {
         return view('admin.auth.login');
     }
-
+    /**
+     * process login
+     *
+     * @param Request $request
+     * @return mix
+     */
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
-        $admin = Admin::where('email', $request->email)
-            ->where('aktif', 1)
-            ->first();
-
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Kredensial tidak ditemukan.'],
+        $login = auth()->guard('admin')
+            ->attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+                'aktif' => 1,
             ]);
+        if ($login) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.home');
+        } else {
+            return back()->withErrors([
+                'email' => 'Kredensial tidal ditemukan.',
+            ])->onlyInput('email');
         }
-
-        session()->put('admin_credentials', [
-            'email' => $request->email,
-            'password' => $request->password
-        ]);
-
-        SomeoneIsTryingToLogin::dispatch($admin);
-
-        return redirect()->route('admin.otp.show');
     }
-
+    /**
+     * Display OTP form
+     *
+     * @return void
+     */
     public function otpForm()
     {
         return view('admin.auth.otp');
     }
-
-    public function verify(Request $request)
+    /**
+     * verify OTP
+     *
+     * @param Request $request
+     * @return mix
+     */
+    public function verifyOtp(Request $request)
     {
-        $checkOtp = Otp::where('code', $request->otp)->first();
-        if (!$checkOtp) {
-            throw ValidationException::withMessages([
-                'otp' => ['OTP Salah.'],
+        try {
+            $otp = Otp::where('code', $request->otp)->first();
+            $now = Carbon::now();
+            if (!$otp) {
+                return back()->with('error', 'Invalid OTP');
+            } elseif ($otp && $now->isAfter($otp->expires_at)) {
+                return back()->with('error', 'OTP is Expired');
+            }
+            $otp->update([
+                'expires_at' => Carbon::now()
             ]);
+            auth()->guard('admin')->user()->update([
+                'otp_verified_at' => Carbon::now()
+            ]);
+            return redirect()->route('admin.home');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        $credentials = session()->get('admin_credentials');
-
-        auth()->guard('admin')
-            ->attempt([
-                'email' => $credentials['email'],
-                'password' => $credentials['password'],
-            ]);
-        $request->session()->regenerate();
-        Otp::where('code', $request->otp)->delete();
-        session()->forget('admin_credentials');
-        return redirect()->route('admin.home');
     }
 
     public function logout()
     {
+        auth()->guard('admin')->user()->update([
+            'otp_verified_at' => null
+        ]);
         auth()->guard('admin')->logout();
         session()->regenerate();
 

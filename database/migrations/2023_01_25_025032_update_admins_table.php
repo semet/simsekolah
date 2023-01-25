@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('otps', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('user_id');
-            $table->string('code')->unique();
-            $table->timestamp('expires_at')->nullable();
-            $table->timestamps();
+        Schema::table('admins', function (Blueprint $table) {
+            $table->timestamp('otp_verified_at')->nullable();
         });
     }
 
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('otps');
+        //
     }
 };

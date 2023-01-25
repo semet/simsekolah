@@ -11,6 +11,13 @@ class Otp extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        //
+        'user_id',
+        'code',
+        'expires_at'
     ];
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 }

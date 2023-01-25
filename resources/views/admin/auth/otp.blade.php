@@ -16,9 +16,9 @@
 
         <div class="card-body p-4">
             <div class="p-3">
-                @if($errors->has('email'))
+                @if(session('error'))
                     <div class="py-3">
-                        <x-ui.alert type="danger" message="{{ $errors->first('email') }}" />
+                        <x-ui.alert type="danger" message="{{ session('error') }}" />
                     </div>
                 @endif
                 <form class="mt-4" action="{{ route('admin.otp.verify') }}" method="POST">
