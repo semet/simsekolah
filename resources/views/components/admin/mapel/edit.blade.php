@@ -1,6 +1,6 @@
-<div id="createMapel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="editMapel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content needs-validation" action="{{ route('admin.mapel.store') }}" method="POST" novalidate>
+        <form class="modal-content needs-validation" action="{{ route('admin.mapel.update') }}" method="POST" novalidate>
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel">Input Data Mata Pelajaran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -9,9 +9,11 @@
 
                 @csrf
 
+                <input type="hidden" name="idEdit" id="idEdit">
+
                 <div class="mb-3">
-                    <label for="departemenId" class="form-label">Departemen</label>
-                    <select name="departemenId" id="departemenId" class="form-select" required>
+                    <label for="departemenIdEdit" class="form-label">Departemen</label>
+                    <select name="departemenIdEdit" id="departemenIdEdit" class="form-select" required>
                         <option value="" selected>--Pilih Departemen--</option>
                         @foreach ($departemen as $dep)
                             <option value="{{ $dep->id }}">{{ $dep->nama }}</option>
@@ -21,8 +23,8 @@
                         Departemen harus diisi
                     </div>
                 </div><div class="mb-3">
-                    <label for="tingkatId" class="form-label">Tingkat</label>
-                    <select name="tingkatId" id="tingkatId" class="form-select" required>
+                    <label for="tingkatIdEdit" class="form-label">Tingkat</label>
+                    <select name="tingkatIdEdit" id="tingkatIdEdit" class="form-select" required>
                         <option value="" selected></option>
                     </select>
                     <div class="invalid-feedback">
@@ -31,24 +33,24 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="kode" class="form-label">Kode Mata Pelajaran</label>
-                    <input type="text" class="form-control" name="kode" id="kode" required>
+                    <label for="kodeEdit" class="form-label">Kode Mata Pelajaran</label>
+                    <input type="text" class="form-control" name="kodeEdit" id="kodeEdit" required>
                     <div class="invalid-feedback">
                         Kode Mata Pelajaran harus diisi
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="nama" class="form-label">Nama Mata Pelajaran</label>
-                    <input type="text" class="form-control" name="nama" id="nama" required>
+                    <label for="namaEdit" class="form-label">Nama Mata Pelajaran</label>
+                    <input type="text" class="form-control" name="namaEdit" id="namaEdit" required>
                     <div class="invalid-feedback">
                         Nama Mata Pelajaran Kelas harus diisi
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="durasi" class="form-label">Alokasi Waktu (jam)</label>
-                    <input type="number" class="form-control" name="durasi" id="durasi" value="6" required>
+                    <label for="durasiEdit" class="form-label">Alokasi Waktu (jam)</label>
+                    <input type="number" class="form-control" name="durasiEdit" id="durasiEdit" value="6" required>
                     <div class="invalid-feedback">
                         Alokasi Waktu harus diisi
                     </div>

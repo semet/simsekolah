@@ -3,6 +3,7 @@
 namespace App\View\Components\Toolbars\Admin;
 
 use App\Models\Departemen;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class Mapel extends Component
@@ -12,9 +13,9 @@ class Mapel extends Component
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public Collection $departemen
+    ) {
     }
 
     /**
@@ -24,11 +25,6 @@ class Mapel extends Component
      */
     public function render()
     {
-        $departemen = Departemen::orderBy('nama')
-                ->get();
-
-        return view('components.toolbars.admin.mapel', [
-            'departemen' => $departemen
-        ]);
+        return view('components.toolbars.admin.mapel');
     }
 }

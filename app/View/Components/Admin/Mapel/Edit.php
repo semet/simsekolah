@@ -2,11 +2,10 @@
 
 namespace App\View\Components\Admin\Mapel;
 
-use App\Models\Departemen;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class Create extends Component
+class Edit extends Component
 {
     /**
      * Create a new component instance.
@@ -25,8 +24,6 @@ class Create extends Component
      */
     public function render()
     {
-
-
-        return view('components.admin.mapel.create');
+        return view('components.admin.mapel.edit');
     }
 }
