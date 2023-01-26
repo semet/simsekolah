@@ -83,7 +83,11 @@ Route::middleware(['admin', 'pass.otp:admin'])->group(function () {
     //Mapel (Mata Pelajaran) routes
     Route::controller(MapelController::class)->group(function () {
         Route::get('mapel', 'index')->name('admin.mapel');
+        Route::get('mapel/list', 'getMapel')->name('admin.mapel.list');
         Route::post('mapel', 'store')->name('admin.mapel.store');
+        Route::get('mapel/{id}/edit', 'edit')->name('admin.mapel.edit');
+        Route::post('mapel/update', 'update')->name('admin.mapel.update');
+        Route::post('mapel/delete', 'destroy')->name('admin.mapel.delete');
     });
     //Guru routes
     Route::controller(GuruController::class)->group(function () {
