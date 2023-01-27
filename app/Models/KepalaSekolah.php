@@ -14,6 +14,7 @@ class KepalaSekolah extends Model
     protected $fillable = [
         'departemen_id',
         'nip',
+        'nuptk',
         'nama',
         'email',
         'email_verified_at',

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Departemen;
+use App\Models\KepalaSekolah;
 use App\Models\Pegawai;
 use App\Models\Semester;
 use App\Models\Tahun;
@@ -21,6 +22,21 @@ class DataSeeder extends Seeder
     public function run()
     {
         Departemen::factory()->create()->each(function ($departemen) {
+            KepalaSekolah::create([
+                'departemen_id' =>$departemen->id,
+                'nip' => fake()->randomNumber(8, true),
+                'nuptk' => fake()->randomNumber(8, true),
+                'nama' => fake()->name(),
+                'email' => fake()->safeEmail(),
+                'telepon' => fake()->phoneNumber(),
+                'password' => bcrypt('secret'),
+                'jenis_kelamin' => fake()->randomElement(['Laki-laki', 'Perempuan']),
+                'foto' => fake()->imageUrl(),
+                'alamat' => fake()->address(),
+                'tempat_lahir' => fake()->streetAddress(),
+                'tanggal_lahir' => fake()->date(),
+                'aktif' => 1
+            ]);
             $pegawai = [];
             for ($i = 0; $i <= 6; $i++){
                 $data = [
