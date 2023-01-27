@@ -15,50 +15,35 @@
             </div>
         @endif
 
-        @if ($siswa->isNotEmpty())
-            <div class="table-responsive">
-                <table class="table table-striped mb-0">
+            <table class="table table-striped dt-responsive nowrap yajra-datatable">
 
-                    <thead>
-                        <tr>
-                            <th>NISN</th>
-                            <th>Nama</th>
-                            <th>NIS</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($siswa as $sis)
-                            <tr>
-                                <th scope="row">{{ $sis->nisn }}</th>
-                                <td>{{ $sis->nama }}</td>
-                                <td>{{ $sis->nis }}</td>
-                                <td>{{ $sis->jenis_kelamin }}</td>
-                                <td>@mdo</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @elseif ($siswa->isEmpty() && request()->get('kelas') != '')
-            <blockquote class="blockquote font-size-18">
-                <h5>Tidak ada Siswa di Kelas yang dipilih. Silakan input</h5>
-            </blockquote>
-        @elseif ($siswa->isEmpty() && request()->get('kelas') == '')
-            <blockquote class="blockquote font-size-18">
-                <h5>Silakan pilih Departemen, Tingkat dan Kelas</h5>
-            </blockquote>
-        @endif
+                <thead>
+                <tr>
+                    <th>NIS</th>
+                    <th>NISN</th>
+                    <th>Nama</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Opsi</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
     </x-ui.card>
 
     @push('styles')
-
+        <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @endpush
 
     @push('scripts')
+        <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('assets/libs/parsleyjs/parsley.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/form-validation.init.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
 
         <script>
@@ -87,7 +72,7 @@
 
                     })
                 });
-
+                //
                 $('#tingkat').change(function (e) {
                     e.preventDefault();
 
@@ -104,9 +89,30 @@
 
                 })
                 //
-                $('#kelas').change(function (e) {
+                $('#tahun').change(function (e) {
                     e.preventDefault();
-                    location.href = `/admin/siswa?kelas=${e.target.value}`;
+                    $('#siswaFilterForm').submit()
+                });
+                //
+                var url = '{{ route('admin.siswa.list', ['kelasId' => request()->get('kelas'), 'tahunId' => request()->get('tahun')]) }}';
+                var parseResult = new DOMParser().parseFromString(url, "text/html");
+                var parsedUrl = parseResult.documentElement.textContent;
+                var table = $('.yajra-datatable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: parsedUrl,
+                    columns: [
+                        {data: 'nis', name: 'nis'},
+                        {data: 'nisn', name: 'nisn'},
+                        {data: 'nama', name: 'nama'},
+                        {data: 'jenis_kelamin', name: 'jenis_kelamin'},
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: true,
+                            searchable: true,
+                        },
+                    ]
                 });
             });
         </script>

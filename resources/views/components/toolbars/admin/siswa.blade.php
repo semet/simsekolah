@@ -18,8 +18,13 @@
                 <option value="" selected>--Pilih Kelas--</option>
             </select>
         </div>
-        <div class="col md-5">
-            <input type="text" class="form-control" placeholder="Search by NIP ">
+        <div class="col-md-2">
+            <select name="tahun" id="tahun" class="form-select">
+                <option value="" selected>--Pilih Tahun--</option>
+                @foreach($tahun as $th)
+                    <option value="{{ $th->id }}">{{ $th->nama }}</option>
+                @endforeach
+            </select>
         </div>
     </form>
     <div class="d-flex w-25 justify-content-end gap-2">

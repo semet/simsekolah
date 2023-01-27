@@ -20,6 +20,7 @@ class Siswa extends Authenticatable
         'departemen_id',
         'tingkat_id',
         'kelas_id',
+        'tahun_id',
         'nis',
         'nisn',
         'nama',
@@ -52,6 +53,11 @@ class Siswa extends Authenticatable
     public function kelas(): BelongsTo
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function tahun (): BelongsTo
+    {
+        return $this->belongsTo(Tahun::class);
     }
 
     public function rapot(): HasMany

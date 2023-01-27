@@ -20,6 +20,10 @@ class Tahun extends Model
         'aktif'
     ];
 
+    public function siswa(): HasMany
+    {
+        return $this->hasMany(Siswa::class);
+    }
     public function semester(): HasMany
     {
         return $this->hasMany(Semester::class);

@@ -3,6 +3,7 @@
 namespace App\View\Components\Toolbars\Admin;
 
 use App\Models\Departemen;
+use App\Models\Tahun;
 use Illuminate\View\Component;
 
 class Siswa extends Component
@@ -27,8 +28,12 @@ class Siswa extends Component
         $departemen = Departemen::select(['id', 'nama'])
                     ->orderBy('nama')
                     ->get();
+        $tahun = Tahun::orderBy('awal')
+            ->get();
+
         return view('components.toolbars.admin.siswa', [
-            'departemen' => $departemen
+            'departemen' => $departemen,
+            'tahun' => $tahun
         ]);
     }
 }
