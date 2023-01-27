@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('otp_verified_at')->nullable();
             $table->string('telepon')->unique();
             $table->string('password');
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
