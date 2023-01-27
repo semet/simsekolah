@@ -38,7 +38,7 @@ class DataSeeder extends Seeder
                 'aktif' => 1
             ]);
             $pegawai = [];
-            for ($i = 0; $i <= 6; $i++){
+            for ($i = 0; $i <= 4; $i++){
                 $data = [
                     'departemen_id' =>$departemen->id,
                     'nip' => fake()->randomNumber(8, true),
@@ -177,7 +177,7 @@ class DataSeeder extends Seeder
                    ],
                ])->each(function ($mapel) {
                    $guru = [];
-                   for($i = 0; $i <= 12; $i++){
+                   for($i = 0; $i <= 1; $i++){
                        $data = [
                            'departemen_id' => $mapel->tingkat->departemen->id,
                            'tingkat_id' => $mapel->tingkat->id,
@@ -215,7 +215,7 @@ class DataSeeder extends Seeder
                 ])->each(function($kelas) use($tahun) {
                     $tahun->each(function ($th) use($kelas){
                         $siswa = [];
-                        for($i = 0; $i <= 20; $i++) {
+                        for($i = 0; $i <= 24; $i++) {
                               $data = [
                                   'departemen_id' => $kelas->tingkat->departemen->id,
                                   'tingkat_id' => $kelas->tingkat->id,
