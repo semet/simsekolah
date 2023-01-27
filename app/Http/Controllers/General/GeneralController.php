@@ -5,6 +5,7 @@ namespace App\Http\Controllers\General;
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Mapel;
 use App\Models\Semester;
 use App\Models\Tingkat;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class GeneralController extends Controller
     public function tingkatByDepartemen()
     {
         $tingkat = Tingkat::where('departemen_id', request()->departemen)
-                ->get();
+            ->get();
 
         return response()->json([
             'tingkat' => $tingkat
@@ -25,7 +26,7 @@ class GeneralController extends Controller
     public function kelasByTingkat()
     {
         $kelas = Kelas::where('tingkat_id', request()->tingkat)
-                ->get();
+            ->get();
 
         return response()->json([
             'kelas' => $kelas
@@ -50,11 +51,21 @@ class GeneralController extends Controller
     public function semesterByTahun()
     {
         $semester = Semester::where('tahun_id', request()->tahun)
-                ->select(['id', 'nama'])
-                ->get();
+            ->select(['id', 'nama'])
+            ->get();
 
         return response()->json([
             'semester' => $semester
+        ]);
+    }
+
+    public function mapelByTingkat()
+    {
+        $mapel = Mapel::where('tingkat_id', request()->tingkat)
+            ->get();
+
+        return response()->json([
+            'mapel' => $mapel
         ]);
     }
 }
