@@ -18,14 +18,14 @@
         <a class="btn btn-primary rounded rounded-circle" href="{{ route('admin.guru.create') }}">
             <i class="fas fa-plus"></i>
         </a>
-        <button class="btn btn-success rounded rounded-circle">
+        <a class="btn btn-success rounded rounded-circle" href="{{ route('admin.guru.export.excel', ['departemenId' => request()->get('departemen'), 'tingkatId' => request()->get('tingkat')]) }}">
             <i class="fas fa-file-excel"></i>
-        </button>
+        </a>
         <button class="btn btn-danger rounded rounded-circle">
             <i class="fas fa-file-pdf rounded rounded-circle"></i>
         </button>
-        <button class="btn btn-secondary rounded rounded-circle">
+        <a class="btn btn-secondary rounded rounded-circle" href="{{ route('admin.guru.export.print', ['departemenId' => request()->get('departemen'), 'tingkatId' => request()->get('tingkat')]) }}">
             <i class="fas fa-print"></i>
-        </button>
+        </a>
     </div>
 </div>

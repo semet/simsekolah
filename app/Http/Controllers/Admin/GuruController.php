@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\GuruExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GuruCreateRequest;
 use App\Http\Requests\GuruUpdateRequest;
 use App\Models\Departemen;
 use App\Models\Guru;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\Facades\DataTables;
 
 class GuruController extends Controller
@@ -24,7 +28,12 @@ class GuruController extends Controller
     {
         return view('admin.guru.index',);
     }
-
+    /**
+     * Data for the dataTables
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getGuru(Request $request)
     {
         if ($request->ajax()) {
@@ -62,7 +71,7 @@ class GuruController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -77,7 +86,7 @@ class GuruController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(GuruCreateRequest $request)
     {
@@ -210,5 +219,28 @@ class GuruController extends Controller
                 'message' => "Guru berhasil dihapus"
             ], 201);
         }
+    }
+
+    /**
+     * @return RedirectResponse|BinaryFileResponse
+     */
+    public function exportExcel()
+    {
+        try {
+            return Excel::download(new GuruExport(request()->departemenId, request()->tingkatId), 'guru.xlsx');
+        } catch (\PhpOffice\PhpSpreadsheet\Writer\Exception|\PhpOffice\PhpSpreadsheet\Exception $e) {
+            return back()->with('Error', $e->getMessage());
+        }
+    }
+
+    public function print()
+    {
+        $guru = Guru::where('departemen_id', request()->departemenId)
+            ->where('tingkat_id', request()->tingkatId)
+            ->get();
+
+        return view('admin.guru.print', [
+            'guru' => $guru
+        ]);
     }
 }

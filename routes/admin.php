@@ -99,6 +99,8 @@ Route::middleware(['admin', 'pass.otp:admin'])->group(function () {
         Route::get('guru/{id}/edit', 'edit')->name('admin.guru.edit');
         Route::post('guru/update/{id}', 'update')->name('admin.guru.update');
         Route::post('guru/delete', 'destroy')->name('admin.guru.delete');
+        Route::get('guru/export/excel', 'exportExcel')->name('admin.guru.export.excel');
+        Route::get('guru/export/print', 'print')->name('admin.guru.export.print');
     });
     //Siswa routes
     Route::controller(SiswaController::class)->group(function () {
