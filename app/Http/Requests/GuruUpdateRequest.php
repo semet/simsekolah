@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 
-class GuruCreateRequest extends FormRequest
+class GuruUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,8 +31,6 @@ class GuruCreateRequest extends FormRequest
             'nip' => 'required',
             'nuptk' => 'required',
             'nama' => 'required',
-            'email' => 'required|email|unique:gurus,email',
-            'telepon' => 'required|unique:gurus,telepon',
             'jenisKelamin' => 'required',
             'foto' => File::types(['jpg', 'png'])
                 ->max(12 * 1024)

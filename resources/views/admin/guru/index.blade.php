@@ -15,50 +15,34 @@
             </div>
         @endif
 
-        @if ($guru->isNotEmpty())
-            <div class="table-responsive">
-                <table class="table table-striped mb-0">
-
-                    <thead>
-                        <tr>
-                            <th>Nip</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Mata Pelajaran</th>
-                            <th>Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($guru as $gr)
-                            <tr>
-                                <th scope="row">{{ $gr->nip }}</th>
-                                <td>{{ $gr->nama }}</td>
-                                <td>{{ $gr->email }}</td>
-                                <td>{{ $gr->mapel->nama }}</td>
-                                <td>@mdo</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @elseif ($guru->isEmpty() && request()->get('tingkat') != '')
-            <blockquote class="blockquote font-size-18">
-                <h5>Tidak ada Guru di Tingkat yang dipilih. Silakan input</h5>
-            </blockquote>
-        @elseif ($guru->isEmpty() && request()->get('tingkat') == '')
-            <blockquote class="blockquote font-size-18">
-                <h5>Silakan pilih Tingkat</h5>
-            </blockquote>
-        @endif
+        <table class="table table-striped dt-responsive nowrap yajra-datatable">
+            <thead>
+                <tr>
+                    <th>Nip</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Opsi</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </x-ui.card>
 
     @push('styles')
-
+        <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @endpush
 
     @push('scripts')
+        <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('assets/libs/parsleyjs/parsley.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/form-validation.init.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('assets/libs/axios/axios.min.js') }}"></script>
 
         <script>
@@ -92,7 +76,58 @@
                     e.preventDefault();
                     $('#guruFilterForm').submit()
                 });
+                //
+                var url = '{{ route('admin.guru.list', ['departemenId' => request()->get('departemen'), 'tingkatId' => request()->get('tingkat')]) }}';
+                var parseResult = new DOMParser().parseFromString(url, "text/html");
+                var parsedUrl = parseResult.documentElement.textContent;
+                var table = $('.yajra-datatable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: parsedUrl,
+                    columns: [
+                        {data: 'nip', name: 'nip'},
+                        {data: 'nama', name: 'nama'},
+                        {data: 'email', name: 'email'},
+                        {data: 'mata_pelajaran', name: 'mata_pelajaran'},
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: true,
+                            searchable: true,
+                        },
+                    ]
+                });
             });
+            //
+            function deleteGuru (id) {
+                Swal.fire({
+                    title: "Anda yakin?",
+                    text: "Proses ini tidak bisa dibatalkan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#34c38f",
+                    cancelButtonColor: "#f46a6a",
+                    confirmButtonText: "Ya, hapus!"
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        axios.post('{{ route('admin.guru.delete') }}', {
+                            _token: '{{ csrf_token() }}',
+                            id: id
+                        }).then(function(response) {
+                            if(response.status === 201) {
+                                Swal.fire("Berhasil!", response.data.message, "success")
+                                .then(function (result) {
+                                    if(result.isConfirmed) {
+                                        location.reload()
+                                    }
+                                });
+                            }
+                        })
+                    }
+                }).then(function(result) {
+                    console.log(result)
+                });
+            }
         </script>
     @endpush
 

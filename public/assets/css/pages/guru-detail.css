@@ -1,0 +1,14 @@
+.detail-card {
+    position: relative;
+    width: 100%;
+}
+.detail-card:hover .card-actions {
+    display: block;
+    transition: all ease-in-out;
+}
+.card-actions {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: none;
+}

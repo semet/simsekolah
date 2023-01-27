@@ -92,7 +92,13 @@ Route::middleware(['admin', 'pass.otp:admin'])->group(function () {
     //Guru routes
     Route::controller(GuruController::class)->group(function () {
         Route::get('guru', 'index')->name('admin.guru');
+        Route::get('guru/list', 'getGuru')->name('admin.guru.list');
+        Route::get('guru/create', 'create')->name('admin.guru.create');
         Route::post('guru/store', 'store')->name('admin.guru.store');
+        Route::get('guru/show/{id}', 'show')->name('admin.guru.show');
+        Route::get('guru/{id}/edit', 'edit')->name('admin.guru.edit');
+        Route::post('guru/update/{id}', 'update')->name('admin.guru.update');
+        Route::post('guru/delete', 'destroy')->name('admin.guru.delete');
     });
     //Siswa routes
     Route::controller(SiswaController::class)->group(function () {

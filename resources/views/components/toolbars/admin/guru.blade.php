@@ -13,14 +13,11 @@
                 <option value="" selected>--Pilih Tingkat--</option>
             </select>
         </div>
-        <div class="col md-6">
-            <input type="text" class="form-control" placeholder="Search by NIP ">
-        </div>
     </form>
     <div class="d-flex justify-content-end gap-2">
-        <button class="btn btn-primary rounded rounded-circle">
+        <a class="btn btn-primary rounded rounded-circle" href="{{ route('admin.guru.create') }}">
             <i class="fas fa-plus"></i>
-        </button>
+        </a>
         <button class="btn btn-success rounded rounded-circle">
             <i class="fas fa-file-excel"></i>
         </button>
