@@ -77,9 +77,10 @@ class AuthController extends Controller
             } elseif ($otp && $now->isAfter($otp->expires_at)) {
                 return back()->with('error', 'OTP is Expired');
             }
-            $otp->update([
-                'expires_at' => Carbon::now()
-            ]);
+            $otp->delete();
+//            $otp->update([
+//                'expires_at' => Carbon::now()
+//            ]);
             auth()->guard('admin')->user()->update([
                 'otp_verified_at' => Carbon::now()
             ]);
