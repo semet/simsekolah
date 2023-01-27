@@ -19,6 +19,7 @@
 * CD into the project Directory (`$ cd simsekolah`)
 * Install dependency (`$ composer install`)
 * Create `.env` file (`$ cp .env.example .env`).
+* Update aplication key (`$ php artisan key:generate`)
 * Enter database detail in `.env`.
 * Run the migration (`$ php artisan migrate:fresh --seed`).
 * Start the server (`$ php artisan serve`) and visit http://127.0.0.1:8000.
