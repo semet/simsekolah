@@ -22,8 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminSeeder::class,
-            DepartemenSeeder::class,
-            PegawaiSeeder::class
+            DataSeeder::class,
         ]);
     }
 }
