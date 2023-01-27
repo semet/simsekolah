@@ -20,8 +20,7 @@ class AdminFactory extends Factory
             'nama' => 'Hamdani Ash-Sidiq',
             'email' => 'hamdanilombok@gmail.com',
             'telepon' => '+6287736690307',
-            'password' => bcrypt('danis3m3t'),
-
+            'password' => bcrypt('123'),
         ];
     }
 }
