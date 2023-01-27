@@ -26,7 +26,7 @@ class PegawaiFactory extends Factory
             'telepon' => fake()->phoneNumber(),
             'password' => bcrypt('secret'),
             'jenis_kelamin' => fake()->randomElement(['Laki-laki', 'Perempuan']),
-            'jabatan' => fake()->randomElement(['TU', 'BK']),
+            'jabatan' => fake()->randomElement(['TU', 'BK', 'Operator']),
             'foto' => fake()->imageUrl(),
             'alamat' => fake()->address(),
             'tempat_lahir' => fake()->streetAddress(),
