@@ -34,14 +34,14 @@ class SiswaController extends Controller
                 ->addColumn('jenis_kelamin', fn($s) => $s->jenis_kelamin)
                 ->addColumn('action', function ($row) {
                     $actionBtn = '
-                    <div class="btn-group btn-group-sm" role="group" aria-label="Sisa Options">
-                        <a class="btn btn-primary" href="' . route('admin.guru.show', $row->id) . '">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Siswa Options">
+                        <a class="btn btn-primary" href="' . route('admin.siswa.show', $row->id) . '">
                             <i class="fas fa-eye"></i>
                         </a>
-                        <a class="btn btn-info" href="' . route('admin.guru.edit', $row->id) . '">
+                        <a class="btn btn-info" href="' . route('admin.siswa.edit', $row->id) . '">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <button class="btn btn-danger" onclick="deleteGuru(' . "'$row->id'" . ')">
+                        <button class="btn btn-danger" onclick="deleteSiswa(' . "'$row->id'" . ')">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>

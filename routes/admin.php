@@ -107,6 +107,9 @@ Route::middleware(['admin', 'pass.otp:admin'])->group(function () {
         Route::get('siswa', 'index')->name('admin.siswa');
         Route::get('siswa/list', 'getSiswa')->name('admin.siswa.list');
         Route::post('siswa', 'store')->name('admin.siswa.store');
+        Route::get('siswa/show/{id}', 'show')->name('admin.siswa.show');
+        Route::get('siswa/{id}/edit', 'edit')->name('admin.siswa.edit');
+        Route::post('siswa/update/{id}', 'update')->name('admin.siswa.update');
     });
     //Pegawai routes
     Route::controller(PegawaiController::class)->group(function () {
