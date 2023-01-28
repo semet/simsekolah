@@ -60,7 +60,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.siswa.create');
     }
 
     /**
@@ -82,7 +82,11 @@ class SiswaController extends Controller
      */
     public function show($id)
     {
-        //
+        $siswa = Siswa::find($id);
+
+        return view('admin.siswa.show', [
+            'siswa' => $siswa
+        ]);
     }
 
     /**
@@ -93,7 +97,7 @@ class SiswaController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.siswa.edit');
     }
 
     /**
