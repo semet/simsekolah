@@ -10,8 +10,12 @@
     top: 10vh;
     left: 50vw;
     transform: translate(-50%);
-    max-width: 850px;
+    max-width: 950px;
+    background: rgba(169, 166, 166, 0.055);
+    padding: 20px;
+    border-radius: 10px;
 }
+
 .main-title {
     font-size: 50px;
     text-align: center;
@@ -27,7 +31,6 @@
 }
 .card-item {
     background: #118ab2;
-    /* border-radius: 5px; */
     cursor: pointer;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
@@ -49,4 +52,10 @@
 .account-type {
     font-weight: 500;
     color: #ced4da;
+}
+
+@media (max-width: 992px) {
+    .main-title {
+        font-size: 30px;
+    }
 }

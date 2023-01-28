@@ -22,13 +22,13 @@
 
     <body data-sidebar="dark">
 
-        <div class="main-container w-100">
+        <div class="main-container">
             <div class="wrapper">
                 <h1 class="main-title">Welcome to <span class="title-gradient">SIMSekolah</span></h1>
                 <div class="my-4 p-0">
-                    <div class="row">
+                    <div class="row d-flex justify-content-center">
                     @foreach ($userType as $user)
-                        <div class="col p-5 m-1 card-item">
+                        <div class="col-md-3 m-1 card-item">
                             <div class="d-flex flex-column align-items-center gap-3" onclick="navigateTo('{{ $user['type'] }}')">
                                 <i class="{{ $user['icon'] }} mdi-lg"></i>
                                 <p class="fs-3 account-type">{{ ucfirst($user['type']) }}</p>
