@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\General\GeneralController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::controller(GeneralController::class)
     ->prefix('general')

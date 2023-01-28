@@ -1,0 +1,52 @@
+.main-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../images/shape.png");
+    background-size: cover;
+}
+.wrapper {
+    position: relative;
+    top: 10vh;
+    left: 50vw;
+    transform: translate(-50%);
+    max-width: 850px;
+}
+.main-title {
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+.title-gradient {
+    background: #101bb8;
+    background: linear-gradient(to right, #101bb8 0%, #cf1512 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: underline;
+    text-decoration-color: #2a6f97;
+}
+.card-item {
+    background: #118ab2;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.card-item:hover {
+    background: #00b4d8;
+    transform: scale(1.05);
+    transition: all ease-in-out;
+    transition-duration: 400ms;
+}
+.card-item:hover .mdi-lg {
+    transform: rotateY(360deg);
+    transition: all ease-in-out;
+    transition-duration: 600ms;
+}
+.mdi-lg {
+    font-size: 80px;
+    color: #e9ecef;
+}
+.account-type {
+    font-weight: 500;
+    color: #ced4da;
+}
